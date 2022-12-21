@@ -5,10 +5,13 @@ import '../widgets/product_item.dart';
 
 class ProductsGrid extends StatelessWidget {
 
+  final bool isFavorite;
+  ProductsGrid(this.isFavorite);
+
   @override
   Widget build(BuildContext context) {
     final products =  Provider.of<Products>(context);
-    final productsData = products.items;
+    final productsData = isFavorite ? products.favoriteProduct : products.items;
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
