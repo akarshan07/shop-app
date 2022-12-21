@@ -17,20 +17,23 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+
+    final product = Provider.of<Product>(context,listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           title: Text(product.title,textAlign: TextAlign.center,),
-          leading:  IconButton(
-            icon: product.isFavorite ? Icon(Icons.favorite): Icon(Icons.favorite_outline),
-            onPressed: (){
-            product.toggleFavorite();
-            },
-            color: Theme.of(context).primaryColor, )  ,
-          trailing: IconButton(icon:  Icon(Icons.shopping_cart),onPressed: (){},color: Theme.of(context).primaryColor, ),
+          leading:  Consumer<Product>(
+            builder: (ctx,product,child)=>IconButton(
+              icon: product.isFavorite ? Icon(Icons.favorite): Icon(Icons.favorite_outline),
+              onPressed: (){
+                product.toggleFavorite();
+              },
+              color: Theme.of(context).primaryColor, ),
+          )  ,
+          trailing: IconButton(icon:  Icon(Icons.shopping_cart ),onPressed: (){},color: Theme.of(context).primaryColor, ),
         ),
 
         child: GestureDetector(child: Image.network(product.imageUrl,fit: BoxFit.cover,),onTap: (){
