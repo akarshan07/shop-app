@@ -14,7 +14,12 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
+
   Map<String, CartItem> _cartItems = {};
+
+  Map<String, CartItem> get cartItem{
+    return {..._cartItems};
+  }
 
   void addToCart(
     String productId,
