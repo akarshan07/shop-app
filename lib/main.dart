@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './providers/cart.dart';
 import 'package:provider/provider.dart';
 import './screens/product_overview_screen.dart';
@@ -11,9 +12,13 @@ runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget{
-
   @override
   Widget build(BuildContext context){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]
+    );
     return MultiProvider(providers: [
         ChangeNotifierProvider(
         create: (ctx)=> Products(),),
