@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
+import '../providers/orders.dart';
 import '../providers/cart.dart' show Cart;
 
 class CartScreen extends StatelessWidget {
@@ -17,30 +18,32 @@ class CartScreen extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             elevation: 3,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Total',
                     style: TextStyle(fontSize: 20),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Chip(
-                      labelPadding: EdgeInsets.only(left: 10),
+                      labelPadding: const EdgeInsets.only(left: 10),
                       label: Text(cart.totalAmount.toStringAsFixed(2)),
-                      avatar: CircleAvatar(
+                      avatar: const CircleAvatar(
                         backgroundColor: Colors.orange,
                         child: Text('\$'),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 9, vertical: 4)),
+                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4)),
                   TextButton(
-                      onPressed: () {},
-                      child: Text(
+                      onPressed: () {
+                        Provider.of<Orders>(context,listen: false).addOrderItem(cart.totalAmount, cart.cartItem.values.toList());
+                        cart.clear();
+                      },
+                      child: const Text(
                         'ORDER NOW',
                         style: TextStyle(color: Colors.purple, fontSize: 16),
                       )),
@@ -48,7 +51,7 @@ class CartScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Expanded(
