@@ -24,7 +24,7 @@ class Cart with ChangeNotifier {
     if (_cartItems.containsKey(productId)) {
       _cartItems.update(
         productId,
-            (existingCartProduct) => CartItem(
+        (existingCartProduct) => CartItem(
           id: existingCartProduct.id,
           title: existingCartProduct.title,
           price: existingCartProduct.price,
@@ -32,13 +32,26 @@ class Cart with ChangeNotifier {
         ),
       );
     } else {
-      _cartItems.putIfAbsent(productId, () => CartItem(id: DateTime.now().toString(), title: title, price: price, quantity: 1));
+      _cartItems.putIfAbsent(
+          productId,
+          () => CartItem(
+              id: DateTime.now().toString(),
+              title: title,
+              price: price,
+              quantity: 1));
     }
     notifyListeners();
   }
 
-  int get quantity{
-    return _cartItems.length;
+  double get totalAmount{
+    var total = 0.0;
+    _cartItems.forEach((productId, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
   }
 
+  int get quantity {
+    return _cartItems.length;
+  }
 }
