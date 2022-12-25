@@ -53,7 +53,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) {
 
-    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json');
+    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products');
     return http.post(url,body: json.encode({
       'title':product.title,
       'price':product.price,
@@ -70,6 +70,8 @@ class Products with ChangeNotifier {
       );
       _items.insert(0, newProduct);
       notifyListeners();
+    }).catchError((error){
+      throw error;
     });
 
 
