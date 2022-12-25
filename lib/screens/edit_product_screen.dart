@@ -18,6 +18,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   var _existingItem = Product(id: '', title: '', price: 0, description: '', imageUrl: '');
   final _form = GlobalKey<FormState>();
   var _isInit = true;
+  var _isLoading = false;
   var _initialValue = {
     'title':'',
     'price':'',
@@ -69,17 +70,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void _saveForm() {
    final isValid =  _form.currentState?.validate() ?? false;
+   setState((){
+     _isLoading = true;
+
+   });
    if(!isValid){
      return;
    }
     _form.currentState?.save();
    if(_existingItem.id != ''){
      Provider.of<Products>(context,listen: false).updateProduct(_existingItem.id,_existingItem);
+     Navigator.of(context).pop();
 
    }else{
-     Provider.of<Products>(context,listen: false).addProduct(_existingItem);
+     Provider.of<Products>(context,listen: false).addProduct(_existingItem).then((_){
+       setState(() {
+         _isLoading = false;
+       });
+       Navigator.of(context).pop();
+     });
    }
-  Navigator.of(context).pop();
+  // Navigator.of(context).pop();
   }
 
   @override
@@ -95,7 +106,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               icon: Icon(Icons.save)),
         ],
       ),
-      body: Padding(
+      body: _isLoading ? const Center(child: CircularProgressIndicator(),):Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _form,
