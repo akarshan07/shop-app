@@ -26,9 +26,7 @@ class UserProductItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
           IconButton(onPressed: (){
-
             Navigator.of(context).pushNamed(EditProductScreen.routeName,arguments: id);
-
           }, icon: Icon(Icons.edit,color: Colors.purple,),),
           IconButton(onPressed: (){
             Provider.of<Products>(context,listen: false).removeProduct(id);

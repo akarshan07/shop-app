@@ -82,13 +82,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     _form.currentState?.save();
     if (_existingItem.id != '') {
-      Provider.of<Products>(context, listen: false)
-          .updateProduct(_existingItem.id, _existingItem);
+      await Provider.of<Products>(context, listen: false).updateProduct(_existingItem.id, _existingItem);
       Navigator.of(context).pop();
     } else {
       try{
-        await Provider.of<Products>(context, listen: false)
-            .addProduct(_existingItem);
+        await Provider.of<Products>(context, listen: false).addProduct(_existingItem);
       }catch(error){
         await showDialog<Null>(
             context: context,
@@ -101,12 +99,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 }, child: Text('Okay')),
               ],
             ));
-      }finally{
+      };
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
-      }
+
     }
     // Navigator.of(context).pop();
   }
