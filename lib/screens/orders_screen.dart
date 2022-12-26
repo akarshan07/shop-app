@@ -19,7 +19,11 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     _isLoading = true;
-    Provider.of<Orders>(context,listen: false).fectchAndSetOrders().then((_) => _isLoading = false);
+    Provider.of<Orders>(context,listen: false).fectchAndSetOrders().then(
+            (_) => setState((){
+              _isLoading = false;
+            })
+    );
     super.initState();
   }
   @override
