@@ -23,7 +23,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json');
+    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json?auth=$authToken');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -73,7 +73,7 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product product) async{
 
-    final url =  Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products/$id.json');
+    final url =  Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
     await http.patch(url,body: json.encode({
       'description':product.description,
       'imageUrl': product.imageUrl,
@@ -87,7 +87,7 @@ class Products with ChangeNotifier {
 
   Future<void> removeProduct(String id) async{
 
-    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products/$id.json');
+    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? existingProduct = _items.elementAt(existingProductIndex);
     _items.removeAt(existingProductIndex);
