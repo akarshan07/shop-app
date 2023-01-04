@@ -35,23 +35,25 @@ class MyApp extends StatelessWidget{
         ChangeNotifierProvider(
           create: (ctx)=>Orders(),),
     ],
-      child: MaterialApp(
-        title: 'My Shop App',
-        theme: ThemeData(
-          //appBarTheme: AppBarTheme(color: Colors.purple),
-          primaryColor: Colors.deepOrange,
-          primarySwatch: Colors.purple,
-          chipTheme: ChipThemeData(backgroundColor: Colors.purple.shade500,labelStyle: const TextStyle(color: Colors.white)),
-          fontFamily: 'Lato',
+      child: Consumer<Auth>(
+        builder:(ctx,authData,_)=> MaterialApp(
+          title: 'My Shop App',
+          theme: ThemeData(
+            //appBarTheme: AppBarTheme(color: Colors.purple),
+            primaryColor: Colors.deepOrange,
+            primarySwatch: Colors.purple,
+            chipTheme: ChipThemeData(backgroundColor: Colors.purple.shade500,labelStyle: const TextStyle(color: Colors.white)),
+            fontFamily: 'Lato',
+          ),
+          home: authData.isAuth ? ProductOverviewScreen() : AuthScreen(),
+          routes: {
+            ProductDetailScreen.routeName : (ctx)=>ProductDetailScreen(),
+            CartScreen.routeName: (ctx)=> CartScreen(),
+            OrderScreen.routeName: (ctx) => OrderScreen(),
+            UserProductScreen.routeName: (ctx) => UserProductScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+          },
         ),
-        home: AuthScreen(),
-        routes: {
-          ProductDetailScreen.routeName : (ctx)=>ProductDetailScreen(),
-          CartScreen.routeName: (ctx)=> CartScreen(),
-          OrderScreen.routeName: (ctx) => OrderScreen(),
-          UserProductScreen.routeName: (ctx) => UserProductScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
       ),
     );
   }

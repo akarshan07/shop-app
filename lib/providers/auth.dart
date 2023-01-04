@@ -11,6 +11,18 @@ class Auth with ChangeNotifier{
   DateTime? _dateTime;
 
 
+  bool get isAuth{
+    return token != null;
+  }
+
+  String? get token{
+    if( _dateTime!=null && _dateTime!.isAfter(DateTime.now()) && _token != null){
+      return _token;
+    }
+    return null;
+  }
+
+
   Future<void> _authenticate(String email, String password, String urlSegment) async{
 
     final url = Uri.parse('https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyAAgvlf7aQ6LwaFLZrVUZszAPzizAeU_Ws');
@@ -25,6 +37,11 @@ class Auth with ChangeNotifier{
       if(responseData['error']!=null){
         throw HttpException(responseData['error']['message'].toString());
       }
+
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _dateTime = DateTime.now().add(Duration(seconds: int.parse(responseData['expiresIn'].toString())));
+      notifyListeners();
 
     }catch(error){
       throw error;
