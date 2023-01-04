@@ -6,6 +6,9 @@ import 'product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [];
+  final String? authToken;
+
+  Products(this.authToken,this._items);
 
   List<Product> get items {
     return [..._items];
@@ -20,8 +23,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.parse(
-        'https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json');
+    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -46,8 +48,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
-        'https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json');
+    final url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json?auth=$authToken');
     final response = await http.get(url);
     final Map<String, dynamic> ? extractedData = json.decode(response.body) as Map<String, dynamic>?;
     List<Product> loadedData = [];
