@@ -33,6 +33,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'isFavorite': product.isFavorite,
+            'creatorId': userId,
           }));
       var newProduct = Product(
         id: json.decode(response.body)['name'],
@@ -48,9 +49,11 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
 
-    var url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json?auth=$authToken');
+    String filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"':'';
+
+    var url = Uri.parse('https://dummy-shop-app-f3c0b-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterString');
     final response = await http.get(url);
     final Map<String, dynamic> ? extractedData = json.decode(response.body) as Map<String, dynamic>?;
     List<Product> loadedData = [];
