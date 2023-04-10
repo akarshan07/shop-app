@@ -1,6 +1,19 @@
-# my_shop
+# Shopiee App
 
-A new Flutter project.
+Hi,
+This app provides retailers a platform to upload their products and consumers can purchase it.
+In this app the retailers can modify the products uploaded by them.
+Consumer can add the product to the cart and purchase them. 
+After the product has been ordered it will be listed in the orders section.
+
+# Technology used
+
+- Flutter
+- Dart
+- Firebase
+- Postman
+- Git and Github
+- REST API's
 
 ## Getting Started
 
